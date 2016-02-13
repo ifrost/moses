@@ -1,6 +1,7 @@
 define(function(require){
 
-    var DomSampler = require('sampler/dom-sampler');
+    var DomSampler = require('sampler/dom-sampler'),
+        MathUtil = require('util/math');
 
     var DistanceSampler = DomSampler.extend({
 
@@ -13,14 +14,10 @@ define(function(require){
         _continueScreening: function(event) {
             var last = this.getLastPosition(),
                 current = this._mousePosition(event);
-            if (last !== null && this._calcDistance(last, current) >= this.distance) {
+
+            if (last !== null && MathUtil.distance(last, current) >= this.distance) {
                 DomSampler._continueScreening.call(this, event);
             }
-        },
-
-        _calcDistance: function(a, b) {
-            var dx = a.x - b.x, dy = a.y  - b.y;
-            return Math.sqrt(dx*dx + dy*dy);
         }
 
     });

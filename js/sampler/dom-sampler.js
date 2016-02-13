@@ -1,6 +1,7 @@
 define(function(require){
 
-    var Sampler = require('sampler/sampler');
+    var Sampler = require('sampler/sampler'),
+        Point = require('model/point');
 
     var DomSampler = Sampler.extend({
 
@@ -9,33 +10,23 @@ define(function(require){
          */
         _element: null,
 
-        _isScreeningActive: false,
-
-        _data: null,
-
         $create: function(element) {
-            this._data = [];
-            this._isScreeningActive = false;
             this._element = element;
-        },
-
-        getData: function() {
-            return this._data;
         },
 
         activate: function() {
             this.__startScreening = this._startScreening.bind(this);
             this._element.addEventListener('mousedown', this.__startScreening);
-            this.dispatch("activated", this._data);
+            Sampler.activate.call(this);
         },
 
         deactivate: function() {
             this._element.removeEventListener("mousedown", this.__startScreening);
-            this.dispatch("deactivated", this._data);
+            Sampler.deactivate.call(this);
         },
 
         _mousePosition: function(event) {
-            return {x: event.x, y: event.y, toString: function(){return '(' + this.x + ',' + this.y + ')'}};
+            return Point.create(event.x, event.y);
         },
 
         _addMousePosition: function(event) {
@@ -44,7 +35,7 @@ define(function(require){
 
         _continueScreening: function(event) {
             this._addMousePosition(event);
-            this.dispatch("sampled", this._data);
+            this._dispatchSampled();
         },
 
         getLastPosition: function() {
@@ -59,7 +50,6 @@ define(function(require){
         _startScreening: function(event) {
             this._data = [];
             this._addMousePosition(event);
-            this._isScreeningActive = true;
 
             this.__continueScreening = this._continueScreening.bind(this);
             this._element.addEventListener('mousemove', this.__continueScreening);
@@ -67,18 +57,17 @@ define(function(require){
             this.__endScreening = this._endScreening.bind(this);
             this._element.addEventListener('mouseup', this.__endScreening);
 
-            this.dispatch("started", this._data);
+            this._dispatchStarted();
         },
 
         _deactivateScreening: function() {
-            this._isScreeningActive = false;
             this._element.removeEventListener('mousemove', this.__continueScreening);
             this._element.removeEventListener('mouseup', this.__endScreening);
         },
 
         _endScreening: function() {
             this._deactivateScreening();
-            this.dispatch("finished", this._data);
+            this._dispatchFinished();
         }
 
     });
