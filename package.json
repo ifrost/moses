@@ -1,0 +1,23 @@
+{
+  "name": "mosesjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "moses.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ifrost/moses.git"
+  },
+  "author": "Piotr Jamroz <pm.jamroz@gmail.com> (https://about.me/piotr.jamroz)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ifrost/moses/issues"
+  },
+  "homepage": "https://github.com/ifrost/moses#readme",
+  "dependencies": {
+    "protoplast": "file:..\\protoplast",
+    "requirejs": "^2.1.22"
+  }
+}
