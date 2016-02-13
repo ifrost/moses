@@ -3,6 +3,13 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+    <style>
+        #playground {
+            background-color: deepskyblue;
+            width: 500px;
+            height: 300px;
+        }
+    </style>
     <script src="../node_modules/requirejs/require.js"></script>
     <script>
         require.config({
@@ -19,11 +26,13 @@
         });
 
         require(['demo/demo'], function(Demo){
-            Demo.run();
+            Demo.run(document.getElementById('playground'));
         });
     </script>
 </head>
 <body>
+
+<div id="playground"></div>
 
 </body>
 </html>
