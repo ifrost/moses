@@ -4,11 +4,17 @@
     <meta charset="UTF-8">
     <title></title>
     <style>
-        #playground {
+
+        .playground, .overlay {
             background-color: deepskyblue;
             width: 500px;
             height: 300px;
         }
+
+        .playground {
+            position: absolute;
+        }
+
     </style>
     <script src="../node_modules/requirejs/require.js"></script>
     <script>
@@ -26,7 +32,7 @@
         });
 
         require(['demo/demo'], function(Demo){
-            Demo.create().run(document.getElementById('playground'));
+            Demo.create().run();
         });
     </script>
 </head>
