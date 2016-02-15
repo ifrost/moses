@@ -35,6 +35,9 @@ define(function(require) {
             recogniser.register(MosesPatterns.LINE_UP_DOWN);
             recogniser.register(MosesPatterns.LINE_LEFT_RIGHT);
             recogniser.register(MosesPatterns.LINE_RIGHT_LEFT);
+            recogniser.register(MosesPatterns.create().CIRCLE);
+            recogniser.register(MosesPatterns.LEFT_TOP_SQUARE);
+            
             recogniser.on('recognised', function(data){
                 if (data.bestMatching.recognised) {
                     console.log('Recognised: ' + data.bestMatching.pattern.name, data);

@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/ifrost/moses#readme",
   "dependencies": {
-    "protoplast": "file:..\\protoplast",
+    "protoplast": "^1.0.0",
     "requirejs": "^2.1.22"
   }
 }

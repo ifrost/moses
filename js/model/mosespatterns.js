@@ -2,9 +2,53 @@ define(function(require){
 
     var p = require('p'),
         DefaultMosesAlgorithm = require('algorithm/default-moses-algorithm'),
+        ShiftedPointsMosesAlgorithm = require('algorithm/shifted-points-moses-algorithm'),
+        ReversedMosesAlgorithm = require('algorithm/reversed-moses-algorithm'),
+        MultiplePattern = require('model/multiple-pattern'),
         PatternFactory = require('model/patternfactory');
 
     var MosesPatterns = p.extend({
+        
+        $create: function() {
+            this.CIRCLE = MultiplePattern.create(
+	    		"Circle",
+    			this.CIRCLE_CLOCKWISE,
+    			this.CIRCLE_COUNTER_CLOCKWISE
+	    	);
+        },
+        
+        CIRCLE_CLOCKWISE: {
+            value: PatternFactory.fromFlatArray(
+    			"Circle (clockwise)",
+	    		[0, -100, 17, -98.5, 34, -94, 50, -86.6, 64.2, -76.6,76.6, -64.2,86.6, -50,94, -34,98.5, -17.7,			
+	    		100, 0,	98.5, 17.7,94,34,86.6,50,76.6, 64.2,64.2, 76.6,50, 86.6,34, 94,17, 98.5,0, 100,			
+	    		-17, 98.5,-34, 94,-50, 86.6,-64.2, 76.6,-76.6, 64.2,-86.6, 50,-94, 34,-98.5, 17.7,-100, 0,
+	    		-98.5, -17.7, -94, -34, -86.6, -50, -76.6, -64.2, -64.2, -76.6, -50, -86.6, -34, -94, -17, -98.5, 0, -100],
+	    		ShiftedPointsMosesAlgorithm.create(0.6, 10)
+            )
+        },
+        
+        CIRCLE_COUNTER_CLOCKWISE: {
+            value: PatternFactory.fromFlatArray(
+	    		"Circle (counter clockwise)",
+	    		[0, -100,-17, -98.5,-34, -94,-50, -86.6,-64.2, -76.6,-76.6, -64.2,-86.6,-50,-94,-34,-98.5, -17.7,
+	    		-100, 0,-98.5, 17.7,-94, 34,-86.6, 50,-76.6, 64.2,-64.2, 76.6,-50, 86.6,-34, 94,-17, 98.5,0, 100,
+	    		17, 98.5, 34, 94, 50, 86.6, 64.2, 76.6, 76.6, 64.2, 86.6, 50, 94, 34, 98.5, 17.7, 100, 0, 98.5,
+	    		-17.7,94, -34,86.6, -50,76.6, -64.2,64.2, -76.6,50, -86.6, 34, -94,17, -98.5, 0, -100],
+	       		ShiftedPointsMosesAlgorithm.create(0.6, 10)
+            )
+        },
+        
+        LEFT_TOP_SQUARE: {
+            value: PatternFactory.fromFlatArray(
+    			"Square (from left top corner)",
+    			[0, 0, 10, 0, 20, 0, 30, 0, 40, 0, 50, 0, 60, 0, 70, 0, 80, 0, 90, 0, 
+    			90, 10, 90, 20, 90, 30, 90, 40, 90, 50, 90, 60, 90, 70, 90, 80, 90, 90,
+    			80, 90, 70, 90, 60, 90, 50, 90, 40, 90, 30, 90, 20, 90, 10, 90, 0, 90,
+    			0, 80, 0, 70, 0, 60, 0, 50, 0, 40, 0, 30, 0, 20, 0, 10, 0, 0],
+    		    ReversedMosesAlgorithm.create(0.7, 4)
+            )
+        },
 
         V: {
             value: PatternFactory.fromFlatArray(
