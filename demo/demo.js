@@ -2,7 +2,7 @@ define(function(require) {
     var p = require('p'),
         SamplerDemo = require('demo/view/sampler-demo'),
         SamplerOverlay = require('demo/view/sampler-overlay'),
-        MosesPatterns = require('model/mosespatterns'),
+        MosesPatterns = require('model/moses-patterns'),
         DefaultRecogniser = require('recogniser/default-recogniser'),
         DistanceSampler = require('sampler/distance-sampler');
 
@@ -39,8 +39,8 @@ define(function(require) {
             recogniser.register(MosesPatterns.LEFT_TOP_SQUARE);
             
             recogniser.on('recognised', function(data){
-                if (data.bestMatching.recognised) {
-                    console.log('Recognised: ' + data.bestMatching.pattern.name, data);
+                if (data.bestMatch.recognised) {
+                    console.log('Recognised: ' + data.bestMatch.pattern.name, data);
                 }
                 else {
                     console.log('Not recognised', data);

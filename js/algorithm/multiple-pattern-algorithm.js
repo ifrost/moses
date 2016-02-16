@@ -1,27 +1,27 @@
 define(function(require){
    
    var p = require('p'),
-       Matching = require('model/matching');
+       Matching = require('model/match');
    
    var MultiplePatternAlgorithm = p.extend({
        
        match: function(multiplePattern, samplingData) {
            
-           var bestMatching, currentMatching;
+           var bestMatch, currentMatch;
            
-           // find best matching
+           // find best match
            multiplePattern.patterns.forEach(function(pattern){
-				currentMatching = pattern.algorithm.match(pattern, samplingData);
-				if (bestMatching != null) {
-					bestMatching = currentMatching.value > bestMatching.value ? currentMatching : bestMatching;
+				currentMatch = pattern.algorithm.match(pattern, samplingData);
+				if (bestMatch != null) {
+					bestMatch = currentMatch.value > bestMatch.value ? currentMatch : bestMatch;
 				}
 				else {
-					bestMatching = currentMatching;
+					bestMatch = currentMatch;
 				}
-			})
+			});
 			
 			// treat subpattern matching as complex pattern matching
-			return Matching.create(multiplePattern, bestMatching.value, bestMatching.recognised);
+			return Matching.create(multiplePattern, bestMatch.value, bestMatch.recognised);
            
        }
        

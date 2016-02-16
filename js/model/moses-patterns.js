@@ -5,7 +5,7 @@ define(function(require){
         ShiftedPointsMosesAlgorithm = require('algorithm/shifted-points-moses-algorithm'),
         ReversedMosesAlgorithm = require('algorithm/reversed-moses-algorithm'),
         MultiplePattern = require('model/multiple-pattern'),
-        PatternFactory = require('model/patternfactory');
+        PatternFactory = require('model/pattern-factory');
 
     var MosesPatterns = p.extend({
         

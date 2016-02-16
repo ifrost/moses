@@ -3,7 +3,7 @@ define(function(require) {
     var p = require('p'),
         MosesFit = require('algorithm/moses-fit'),
         Point = require('model/point'),
-        Matching = require('model/matching');
+        Matching = require('model/match');
 
     var DefaultMosesAlgorithm = p.extend({
 

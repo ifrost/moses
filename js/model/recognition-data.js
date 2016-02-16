@@ -4,19 +4,19 @@ define(function(require) {
 
     var RecognitionData = p.extend({
 
-        allMatchings: null,
+        allMatches: null,
 
-        bestMatching: null,
+        bestMatch: null,
 
-        $create: function(matchings) {
-            this.allMatchings = matchings;
-            this.bestMatching = null;
-            matchings.forEach(function(matching) {
-                if (this.bestMatching != null) {
-                    this.bestMatching = matching.value > this.bestMatching.value ? matching : this.bestMatching;
+        $create: function(matches) {
+            this.allMatches = matches;
+            this.bestMatch = null;
+            matches.forEach(function(match) {
+                if (this.bestMatch != null) {
+                    this.bestMatch = match.value > this.bestMatch.value ? match : this.bestMatch;
                 }
                 else {
-                    this.bestMatching = matching;
+                    this.bestMatch = match;
                 }
             }, this);
         }

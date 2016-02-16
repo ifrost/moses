@@ -45,14 +45,14 @@ define(function(require) {
         },
 
         _recognise: function(samplingData) {
-            var matchings = [];
+            var matches = [];
 
             // examine all registered patterns
             for (var patternName in this.patterns) {
-                matchings.push(this.patterns[patternName].algorithm.match(this.patterns[patternName], samplingData));
+                matches.push(this.patterns[patternName].algorithm.match(this.patterns[patternName], samplingData));
             }
 
-            return RecognitionData.create(matchings);
+            return RecognitionData.create(matches);
         },
 
         _clear: function() {
