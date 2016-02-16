@@ -1,4 +1,4 @@
-define(function(require){
+define(function(require) {
 
     var p = require('p'),
         MathUtil = require('util/math');
@@ -22,7 +22,7 @@ define(function(require){
 
         length: {
             get: function() {
-                return MathUtil.distance(this, Point.create(0,0));
+                return MathUtil.distance(this, Point.create(0, 0));
             }
         },
 

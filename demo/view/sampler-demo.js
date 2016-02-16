@@ -1,4 +1,4 @@
-define(function(require){
+define(function(require) {
 
     var p = require('p');
 
@@ -45,7 +45,7 @@ define(function(require){
 
         _clear: function() {
             this._previousPoint = null;
-            setTimeout(function(){
+            setTimeout(function() {
                 this.root.innerHTML = '';
             }.bind(this), 1000)
         },

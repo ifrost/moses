@@ -1,4 +1,4 @@
-define(function(require){
+define(function(require) {
 
     var Sampler = require('sampler/sampler'),
         Point = require('model/point');

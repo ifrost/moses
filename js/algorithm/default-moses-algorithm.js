@@ -16,12 +16,12 @@ define(function(require) {
             this._minSamplerPoints = minSamplerPoints || 5;
         },
 
-        match: function(pattern, samplingData){
+        match: function(pattern, samplingData) {
             var value = this._matchingValue(pattern.data, samplingData);
 
             var recognized = value >= this._threshold && samplingData.length >= this._minSamplerPoints;
 
-            return Matching.create(pattern, value,  recognized);
+            return Matching.create(pattern, value, recognized);
         },
 
         _matchingValue: function(patternData, samplingData) {
@@ -101,7 +101,7 @@ define(function(require) {
             }
 
             var base = Point.create(0, 1);
-            var dotProduct  = direction.x * base.x + direction.y * base.y;
+            var dotProduct = direction.x * base.x + direction.y * base.y;
             var cos = dotProduct / (direction.length * base.length);
 
             var result;

@@ -1,4 +1,4 @@
-define(function(require){
+define(function(require) {
 
     var DomSampler = require('sampler/dom-sampler'),
         MathUtil = require('util/math');
@@ -8,7 +8,7 @@ define(function(require){
         distance: null,
 
         $create: function(element, distance) {
-            this.distance =  distance;
+            this.distance = distance;
         },
 
         _continueScreening: function(event) {
