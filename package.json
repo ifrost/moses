@@ -1,7 +1,7 @@
 {
   "name": "mosesjs",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.9.0",
+  "description": "Mouse gesture recognition",
   "main": "moses.js",
   "scripts": {
     "prepare": "node build/prepare.js js build/main.js",
