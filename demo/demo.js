@@ -1,10 +1,10 @@
 define(function(require) {
     var p = require('p'),
-        SamplerDemo = require('demo/view/sampler-demo'),
-        SamplerOverlay = require('demo/view/sampler-overlay'),
-        MosesPatterns = require('model/moses-patterns'),
-        DefaultRecogniser = require('recogniser/default-recogniser'),
-        DistanceSampler = require('sampler/distance-sampler');
+        SamplerDemo = require('view/sampler-demo'),
+        SamplerOverlay = require('view/sampler-overlay'),
+        MosesPatterns = require('moses').model.MosesPatterns,
+        DefaultRecogniser = require('moses').recogniser.DefaultRecogniser,
+        DistanceSampler = require('moses').sampler.DistanceSampler;
 
     var Demo = p.extend({
 

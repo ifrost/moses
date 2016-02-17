@@ -4,6 +4,8 @@
   "description": "",
   "main": "moses.js",
   "scripts": {
+    "prepare": "node build/prepare.js js build/main.js",
+    "make": "node node_modules/requirejs/bin/r.js -o build/build.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,5 +21,8 @@
   "dependencies": {
     "protoplast": "^1.0.0",
     "requirejs": "^2.1.22"
+  },
+  "devDependencies": {
+    "almond": "^0.3.1"
   }
 }
