@@ -4,12 +4,12 @@ define(function(require) {
 
     var ReversedMosesAlgorithm = DefaultMosesAlgorithm.extend({
 
-        matchingValue: function(patternData, samplingData) {
+        _matchingValue: function(patternData, samplingData) {
             var reversed = patternData.slice();
             reversed.reverse();
 
-            var straightValue = DefaultMosesAlgorithm.matchingValue.call(this, patternData, samplingData);
-            var reversedValue = DefaultMosesAlgorithm.matchingValue.call(this, reversed, samplingData);
+            var straightValue = DefaultMosesAlgorithm._matchingValue.call(this, patternData, samplingData);
+            var reversedValue = DefaultMosesAlgorithm._matchingValue.call(this, reversed, samplingData);
 
             return straightValue > reversedValue ? straightValue : reversedValue;
         }
