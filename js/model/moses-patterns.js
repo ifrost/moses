@@ -4,13 +4,13 @@ define(function(require) {
         DefaultMosesAlgorithm = require('algorithm/default-moses-algorithm'),
         ShiftedPointsMosesAlgorithm = require('algorithm/shifted-points-moses-algorithm'),
         ReversedMosesAlgorithm = require('algorithm/reversed-moses-algorithm'),
-        MultiplePattern = require('model/multiple-pattern'),
+        PatternCollection = require('model/pattern-collection'),
         PatternFactory = require('model/pattern-factory');
 
     var MosesPatterns = p.extend({
 
         $create: function() {
-            this.CIRCLE = MultiplePattern.create(
+            this.CIRCLE = PatternCollection.create(
                 "Circle",
                 this.CIRCLE_CLOCKWISE,
                 this.CIRCLE_COUNTER_CLOCKWISE
@@ -50,12 +50,23 @@ define(function(require) {
             )
         },
 
+        RIGHT_TOP_SQUARE: {
+            value: PatternFactory.fromFlatArray(
+                "Square (from right top corner)",
+                [90, 0, 90, 10, 90, 20, 90, 30, 90, 40, 90, 50, 90, 60, 90, 70, 90, 80,
+                    90, 90, 80, 90, 70, 90, 60, 90, 50, 90, 40, 90, 30, 90, 20, 90, 10, 90,
+                    0, 90, 0, 80, 0, 70, 0, 60, 0, 50, 0, 40, 0, 30, 0, 20, 0, 10, 0, 0,
+                    10, 0, 20, 0, 30, 0, 40, 0, 50, 0, 60, 0, 70, 0, 80, 0, 90, 0],
+                ReversedMosesAlgorithm.create(0.7, 4)
+            )
+        },
+
         V: {
             value: PatternFactory.fromFlatArray(
                 "V",
                 [-50, -100, -45, -90, -40, -80, -35, -70, -30, -60, -25, -50, -20, -40, -15, -30, -10, -20, -5, -10, 0, 0,
                     5, -10, 10, -20, 15, -30, 20, -40, 25, -50, 30, -60, 35, -70, 40, -80, 45, -90, 50, -100],
-                DefaultMosesAlgorithm.create(0.6, 4)
+                ReversedMosesAlgorithm.create(0.6, 4)
             )
         },
 

@@ -3,7 +3,7 @@ define(function(require) {
     var p = require('p'),
         Matching = require('model/match');
 
-    var MultiplePatternAlgorithm = p.extend({
+    var PatternCollectionAlgorithm = p.extend({
 
         match: function(multiplePattern, samplingData) {
 
@@ -27,6 +27,6 @@ define(function(require) {
 
     });
 
-    return MultiplePatternAlgorithm;
+    return PatternCollectionAlgorithm;
 
 });

@@ -1,9 +1,9 @@
 define(function(require) {
 
     var p = require('p'),
-        MultiplePatternAlgorithm = require('algorithm/multiple-pattern-algorithm');
+        MultiplePatternAlgorithm = require('algorithm/pattern-collection-algorithm');
 
-    var MultiplePattern = p.extend({
+    var PatternCollection = p.extend({
 
         patterns: null,
 
@@ -16,6 +16,6 @@ define(function(require) {
 
     });
 
-    return MultiplePattern;
+    return PatternCollection;
 
 });
