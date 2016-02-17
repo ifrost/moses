@@ -36,7 +36,9 @@ define(function(require) {
             var samplingDirections = this._pointsToDirections(reducedSamplingData);
 
             // match value
-            return this._calculateMosesSimilarity(patternDirections, samplingDirections);
+            var matchValue = this._calculateMosesSimilarity(patternDirections, samplingDirections);
+
+            return matchValue;
         },
 
         _preparePatternData: function(data) {

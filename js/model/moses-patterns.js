@@ -15,6 +15,14 @@ define(function(require) {
                 this.CIRCLE_CLOCKWISE,
                 this.CIRCLE_COUNTER_CLOCKWISE
             );
+
+            this.SQUARE = PatternCollection.create(
+                "Square",
+                this.LEFT_TOP_SQUARE,
+                this.RIGHT_TOP_SQUARE,
+                this.LEFT_BOTTOM_SQUARE,
+                this.RIGHT_BOTTOM_SQUARE
+            )
         },
 
         CIRCLE_CLOCKWISE: {
@@ -61,12 +69,34 @@ define(function(require) {
             )
         },
 
+        LEFT_BOTTOM_SQUARE: {
+            value: PatternFactory.fromFlatArray(
+                "Square (from left bottom corner)",
+                [0, 90, 0, 80, 0, 70, 0, 60, 0, 50, 0, 40, 0, 30, 0, 20, 0, 10,
+                    0, 0, 10, 0, 20, 0, 30, 0, 40, 0, 50, 0, 60, 0, 70, 0, 80, 0, 90, 0,
+                    90, 10, 90, 20, 90, 30, 90, 40, 90, 50, 90, 60, 90, 70, 90, 80, 90, 90,
+                    80, 90, 70, 90, 60, 90, 50, 90, 40, 90, 30, 90, 20, 90, 10, 90, 0, 90],
+                ReversedMosesAlgorithm.create(0.7, 4)
+            )
+        },
+
+        RIGHT_BOTTOM_SQUARE: {
+            value: PatternFactory.fromFlatArray(
+                "Square (from right bottom corner)",
+                [90, 90, 80, 90, 70, 90, 60, 90, 50, 90, 40, 90, 30, 90, 20, 90, 10, 90, 0, 90,
+                    0, 80, 0, 70, 0, 60, 0, 50, 0, 40, 0, 30, 0, 20, 0, 10, 0, 0,
+                    10, 0, 20, 0, 30, 0, 40, 0, 50, 0, 60, 0, 70, 0, 80, 0, 90, 0,
+                    90, 10, 90, 20, 90, 30, 90, 40, 90, 50, 90, 60, 90, 70, 90, 80, 90, 90],
+                ReversedMosesAlgorithm.create(0.7, 4)
+            )
+        },
+
         V: {
             value: PatternFactory.fromFlatArray(
                 "V",
                 [-50, -100, -45, -90, -40, -80, -35, -70, -30, -60, -25, -50, -20, -40, -15, -30, -10, -20, -5, -10, 0, 0,
                     5, -10, 10, -20, 15, -30, 20, -40, 25, -50, 30, -60, 35, -70, 40, -80, 45, -90, 50, -100],
-                ReversedMosesAlgorithm.create(0.6, 4)
+                DefaultMosesAlgorithm.create(0.6, 4)
             )
         },
 
