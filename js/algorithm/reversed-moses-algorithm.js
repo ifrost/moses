@@ -2,6 +2,10 @@ define(function(require) {
 
     var DefaultMosesAlgorithm = require('algorithm/default-moses-algorithm');
 
+    /**
+     * Moses algorithm that additionally check the similarity with a reversed pattern.
+     * Used with symmetric patterns.
+     */
     var ReversedMosesAlgorithm = DefaultMosesAlgorithm.extend({
 
         _matchingValue: function(patternData, samplingData) {

@@ -4,8 +4,18 @@ define(function(require) {
         Point = require('model/point'),
         Pattern = require('model/pattern');
 
+    /**
+     * Pattern factory.
+     */
     var PatternFactory = p.extend({
 
+        /**
+         * Generates a pattern from flat list of poitns
+         * @param {String} name - pattern name
+         * @param {Number[]} points - flat list of points, e.g. [x1, y1, x2, y2, x3, y3,...]
+         * @param {Algorithm} algorithm
+         * @returns {Pattern}
+         */
         fromFlatArray: function(name, points, algorithm) {
             if (points.length % 2 != 0) {
                 throw Error("You must provide even number of coordinates!");

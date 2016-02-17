@@ -3,6 +3,9 @@ define(function(require) {
     var Sampler = require('sampler/sampler'),
         Point = require('model/point');
 
+    /**
+     * Sampler listening to DOM events
+     */
     var DomSampler = Sampler.extend({
 
         /**

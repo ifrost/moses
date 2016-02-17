@@ -3,6 +3,9 @@ define(function(require) {
     var p = require('p'),
         RecognitionData = require('model/recognition-data');
 
+    /**
+     * @alias DefaultRecogniser
+     */
     var DefaultRecogniser = p.extend([p.Dispatcher], {
 
         _sampler: null,

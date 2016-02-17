@@ -3,12 +3,29 @@ define(function(require) {
     var p = require('p'),
         MosesFit = require('algorithm/moses-fit'),
         Point = require('model/point'),
-        Matching = require('model/match');
+        Match = require('model/match');
 
+    /**
+     * Default Moses Algorithm.
+     * 1) Normalise pattern data and sampling data so they have same length
+     * 2) Convert list of points to list of directions
+     * 3) Check how much sampling directions are similar to pattern directions
+     * 4) Mark pattern as recognised if the similarity is greater than threshold
+     *
+     * @alias DefaultMosesAlgorithm
+     */
     var DefaultMosesAlgorithm = p.extend({
 
+        /**
+         * Minimum similarity to recognise the pattern
+         * @property {Number}
+         */
         _threshold: null,
 
+        /**
+         * Minimum number of points to recognise the pattern
+         * @property {Number}
+         */
         _minSamplerPoints: null,
 
         $create: function(threshold, minSamplerPoints) {
@@ -16,12 +33,18 @@ define(function(require) {
             this._minSamplerPoints = minSamplerPoints || 5;
         },
 
+        /**
+         * Match the pattern
+         * @param {Pattern} pattern
+         * @param {Point[]} samplingData
+         * @returns {Match}
+         */
         match: function(pattern, samplingData) {
             var value = this._matchingValue(pattern.data, samplingData);
 
             var recognized = value >= this._threshold && samplingData.length >= this._minSamplerPoints;
 
-            return Matching.create(pattern, value, recognized);
+            return Match.create(pattern, value, recognized);
         },
 
         _matchingValue: function(patternData, samplingData) {

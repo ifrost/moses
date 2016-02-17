@@ -3,6 +3,10 @@ define(function(require) {
     var p = require('p'),
         Matching = require('model/match');
 
+    /**
+     * Algorithm for pattern collection. It finds the best matching pattern in the collection
+     * using algorithms for the patterns in the collection.
+     */
     var PatternCollectionAlgorithm = p.extend({
 
         match: function(multiplePattern, samplingData) {

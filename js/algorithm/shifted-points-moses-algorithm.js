@@ -2,6 +2,11 @@ define(function(require) {
 
     var DefaultMosesAlgorithm = require('algorithm/default-moses-algorithm');
 
+    /**
+     * Moses algorithm that shifts sampling and pattern points so they start
+     * with the point from the top-left corner.
+     * Used with cyclic patterns that may start from any point
+     */
     var ShiftedPointsMosesAlgorithm = DefaultMosesAlgorithm.extend({
 
         _preparePatternData: function(data) {

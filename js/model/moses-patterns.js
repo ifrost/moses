@@ -7,6 +7,9 @@ define(function(require) {
         PatternCollection = require('model/pattern-collection'),
         PatternFactory = require('model/pattern-factory');
 
+    /**
+     * List of some pattern using moses algorithm for recognition
+     */
     var MosesPatterns = p.extend({
 
         $create: function() {

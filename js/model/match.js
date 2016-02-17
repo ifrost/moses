@@ -2,7 +2,7 @@ define(function(require) {
 
     var p = require('p');
 
-    var Matching = p.extend({
+    var Match = p.extend({
 
         value: null,
 
@@ -18,5 +18,5 @@ define(function(require) {
 
     });
 
-    return Matching;
+    return Match;
 });

@@ -3,6 +3,9 @@ define(function(require) {
     var DomSampler = require('sampler/dom-sampler'),
         MathUtil = require('util/math');
 
+    /**
+     * DOM Sampler collecting points in equal distances
+     */
     var DistanceSampler = DomSampler.extend({
 
         distance: null,

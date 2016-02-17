@@ -2,6 +2,9 @@ define(function(require) {
 
     var p = require('p');
 
+    /**
+     * Normalises two list so they have the same length
+     */
     var MosesFit = p.extend({
 
         _reducedPatternData: null,
