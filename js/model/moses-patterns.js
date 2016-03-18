@@ -99,16 +99,16 @@ define(function(require) {
                 "V",
                 [-50, -100, -45, -90, -40, -80, -35, -70, -30, -60, -25, -50, -20, -40, -15, -30, -10, -20, -5, -10, 0, 0,
                     5, -10, 10, -20, 15, -30, 20, -40, 25, -50, 30, -60, 35, -70, 40, -80, 45, -90, 50, -100],
-                DefaultMosesAlgorithm.create(0.6, 4)
+                DefaultMosesAlgorithm.create(0.5, 4)
             )
         },
 
         DASH: {
             value: PatternFactory.fromFlatArray(
-                "Dash Normal",
+                "Chevron",
                 [-50, 100, -45, 90, -40, 80, -35, 70, -30, 60, -25, 50, -20, 40, -15, 30, -10, 20, -5, 10, 0, 0,
                     5, 10, 10, 20, 15, 30, 20, 40, 25, 50, 30, 60, 35, 70, 40, 80, 45, 90, 50, 100],
-                DefaultMosesAlgorithm.create(0.6, 4)
+                DefaultMosesAlgorithm.create(0.5, 4)
             )
         },
 

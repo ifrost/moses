@@ -29,7 +29,7 @@ define(function(require) {
         },
 
         _mousePosition: function(event) {
-            return Point.create(event.x, event.y);
+            return Point.create(event.pageX - this._element.offsetLeft, event.pageY - this._element.offsetTop);
         },
 
         _addMousePosition: function(event) {
