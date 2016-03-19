@@ -6,7 +6,9 @@
   "scripts": {
     "prepare": "node build/prepare.js js build/main.js",
     "make": "node node_modules/requirejs/bin/r.js -o build/build.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "version": "npm run prepare && npm run make",
+    "postversion": "git push && git push --tags && npm publish"
   },
   "repository": {
     "type": "git",
