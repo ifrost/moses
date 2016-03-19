@@ -3,7 +3,7 @@ var fs = require('fs');
 var startDir = process.argv[2];
 var out = process.argv[3];
 
-var imports = "";
+var imports = '    var handjs = require("../node_modules/handjs/hand.min");\n';
 var map = {};
 
 function camelCase(name) {

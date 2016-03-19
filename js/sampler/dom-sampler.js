@@ -19,12 +19,12 @@ define(function(require) {
 
         activate: function() {
             this.__startScreening = this._startScreening.bind(this);
-            this._element.addEventListener('mousedown', this.__startScreening);
+            this._element.addEventListener('pointerdown', this.__startScreening);
             Sampler.activate.call(this);
         },
 
         deactivate: function() {
-            this._element.removeEventListener("mousedown", this.__startScreening);
+            this._element.removeEventListener("pointerdown", this.__startScreening);
             Sampler.deactivate.call(this);
         },
 
@@ -55,17 +55,17 @@ define(function(require) {
             this._addMousePosition(event);
 
             this.__continueScreening = this._continueScreening.bind(this);
-            this._element.addEventListener('mousemove', this.__continueScreening);
+            this._element.addEventListener('pointermove', this.__continueScreening);
 
             this.__endScreening = this._endScreening.bind(this);
-            this._element.addEventListener('mouseup', this.__endScreening);
+            this._element.addEventListener('pointerup', this.__endScreening);
 
             this._dispatchStarted();
         },
 
         _deactivateScreening: function() {
-            this._element.removeEventListener('mousemove', this.__continueScreening);
-            this._element.removeEventListener('mouseup', this.__endScreening);
+            this._element.removeEventListener('pointermove', this.__continueScreening);
+            this._element.removeEventListener('pointerup', this.__endScreening);
         },
 
         _endScreening: function() {
