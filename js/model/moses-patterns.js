@@ -3,7 +3,9 @@ define(function(require) {
     var p = require('p'),
         DefaultMosesAlgorithm = require('algorithm/default-moses-algorithm'),
         ShiftedPointsMosesAlgorithm = require('algorithm/shifted-points-moses-algorithm'),
+        StraightLineAlgorithm = require("algorithm/straight-line-algorithm"),
         ReversedMosesAlgorithm = require('algorithm/reversed-moses-algorithm'),
+        Pattern = require("model/pattern"),
         PatternCollection = require('model/pattern-collection'),
         PatternFactory = require('model/pattern-factory');
 
@@ -161,6 +163,10 @@ define(function(require) {
                 [0, 0, -10, 0, -20, 0, -30, 0, -40, 0, -50, 0, -60, 0, -70, 0, -80, 0, -90, 0, -100, 0],
                 DefaultMosesAlgorithm.create(0.7, 2)
             )
+        },
+        
+        STRAIGHT_LINE: {
+            value: Pattern.create("Straight line", [], StraightLineAlgorithm.create())
         }
 
     });

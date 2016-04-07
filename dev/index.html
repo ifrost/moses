@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Moses demo</title>
+
+    <style>
+
+        * {
+            font-family: Georgia;
+        }
+
+        #patterns {
+            width: 200px;
+            float: left;
+        }
+
+        #sampler {
+            width: 400px;
+            height: 290px;
+            margin: 5px;
+            float: left;
+            border-radius: 10px;
+            background-color: #a4bfd1;
+            position: relative;;
+        }
+
+        .pattern {
+            width: 90px;
+            height: 90px;
+            margin: 5px;
+            float: left;
+            border-radius: 10px;
+            background-color: #a4bfd1;
+        }
+
+        #sampler__info {
+            font-size: 10px;
+            right: 10px;
+            bottom: 10px;
+            position: absolute;
+        }
+
+        #sampler__path {
+            fill: none;
+            stroke: #410006;
+            stroke-width: 1.5px;
+        }
+
+        .pattern svg, .pattern svg g {
+            width: 90px;
+            height: 90px;
+            fill: none;
+            stroke: #410006;
+            stroke-width: 1.5px;
+        }
+
+        #sampler svg, #sampler__drawings {
+            width: 400px;
+            height: 290px;
+        }
+
+        .recognised {
+            background-color: #8c9c09;
+        }
+
+        .error {
+            background-color: #f83201 !important;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div id="main">
+    <div id="patterns">
+        <div class="pattern"><svg><g><path class="pattern-path"></path></g></svg></div>
+        <div class="pattern"><svg><g><path class="pattern-path"></path></g></svg></div>
+        <div class="pattern"><svg><g><path class="pattern-path"></path></g></svg></div>
+        <div class="pattern"><svg><g><path class="pattern-path"></path></g></svg></div>
+        <div class="pattern"><svg><g><path class="pattern-path"></path></g></svg></div>
+        <div class="pattern"><svg><g><path class="pattern-path"></path></g></svg></div>
+    </div>
+    <div id="sampler">
+        <span id="sampler__info">draw pattern here</span>
+        <svg>
+            <g id="sampler__drawings">
+                <path id="sampler__path"></path>
+            </g>
+        </svg>
+    </div>
+</div>
+
+<script src="../node_modules/requirejs/require.js"></script>
+<script>
+    require.config({
+        baseUrl: '../js',
+        paths: {
+            'p': '../node_modules/protoplast/dist/protoplast'
+        },
+        shim: {
+            'p': {
+                exports: 'Protoplast'
+            }
+        },
+    });
+    
+    function drawPoints(element, points) {
+        if (!points.length) {
+            return;
+        }
+        var path = 'M' + points[0].x + ' ' + points[0].y;
+        path += points.slice(1).map(function(point) {
+            return ' L' + point.x + ' ' + point.y
+        }).join('');
+        element.setAttribute('d', path);
+    }
+
+    function normalise(points, maxWidth, maxHeight, offsetX, offsetY) {
+        var rect = {x1: Infinity, y1: Infinity, x2: -Infinity, y2: -Infinity};
+        points.forEach(function(point) {
+            rect.x1 = Math.min(point.x, rect.x1);
+            rect.y1 = Math.min(point.y, rect.y1);
+            rect.x2 = Math.max(point.x, rect.x2);
+            rect.y2 = Math.max(point.y, rect.y2);
+        });
+        var deltaX = rect.x1,
+            deltaY = rect.y1;
+        rect.x2 -= rect.x1;
+        rect.y2 -= rect.y1;
+        rect.x1 = 0;
+        rect.y1 = 0;
+        var factorX = rect.x2 / maxWidth,
+            factorY = rect.y2 / maxHeight,
+            factor = Math.max(factorX, factorY);
+        points = points.map(function(point) {
+            var x = (point.x - deltaX) / factor + (offsetX || 0),
+                y = (point.y - deltaY) / factor + (offsetY || 0);
+            return moses.model.Point.create(x, y);
+        });
+        return points;
+    }
+
+    function showRecognised(index) {
+        var patterns = document.getElementsByClassName("pattern");
+        patterns[index].className += " recognised";
+    }
+
+    function showError() {
+        document.getElementById("sampler").className = "error";
+    }
+
+    function clearNotifications() {
+        var patterns = document.getElementsByClassName("pattern");
+            for (var i = 0; i < patterns.length; i++) {
+            patterns[i].className = "pattern";
+        }
+        document.getElementById("sampler").className = "";
+    }
+
+    function start() {
+
+        var mosesPatterns = moses.model.MosesPatterns.create();
+        var patterns = [mosesPatterns.V, mosesPatterns.CIRCLE, mosesPatterns.DASH, mosesPatterns.SQUARE, mosesPatterns.SEVEN, mosesPatterns.Z];
+        patterns = [mosesPatterns.STRAIGHT_LINE];
+
+        var div = document.getElementById("sampler");
+
+        var patternPaths = document.getElementsByClassName("pattern-path");
+        var pattern, svgPath, path;
+        for (var i = 0; i < patterns.length; i++) {
+            pattern = patterns[i];
+            svgPath = patternPaths[i];
+            drawPoints(svgPath, normalise(pattern.patterns ? pattern.patterns[0].data : pattern.data, 60, 60, 15, 15));
+        }
+
+        console.log('Creating sampler...');
+        var sampler = moses.sampler.DistanceSampler.create(div, 5);
+        sampler.on('sampled', drawPoints.bind(null, document.getElementById("sampler__path")));
+        sampler.on('started', clearNotifications);
+
+        console.log('Creating recogniser...');
+        var recogniser = moses.recogniser.DefaultRecogniser.create();
+
+        console.log('Registering patterns...');
+        patterns.forEach(function(pattern) {
+            recogniser.register(pattern);
+            console.log('Registering pattern: ' + pattern.name);
+        });
+
+        console.log('Attaching logger...');
+        recogniser.on('recognised', function(data) {
+            var text;
+            if (data.bestMatch.recognised) {
+                text = 'Recognised: ' + data.bestMatch.pattern.name + ' (' + Math.floor(data.bestMatch.value * 100) + '%)';
+                console.log(text);
+                document.getElementById('sampler__info').innerHTML = text;
+                patterns.forEach(function(pattern, index){
+                    if (pattern.name === data.bestMatch.pattern.name) {
+                        showRecognised(index);
+                    }
+                });
+            }
+            else {
+                showError();
+                text = 'Not recognised. Was it ' + data.bestMatch.pattern.name + '? (' + Math.floor(data.bestMatch.value * 100) + '%)';
+                console.log(text);
+                document.getElementById('sampler__info').innerHTML = text;
+            }
+        });
+
+        console.log('Attaching sampler...');
+        recogniser.sampler = sampler;
+
+        console.log('Activating sampler...');
+        sampler.activate();
+
+        console.log('Ready!');
+    }
+        
+    
+    require(['../build/main'], function(moses) {
+        window.moses = moses;
+        start();
+    });
+</script>
+
+</body>
+</html>
