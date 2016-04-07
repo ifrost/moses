@@ -33,9 +33,6 @@ define(function(require){
             
             var value = totalOnDirection / totalPoints;
             
-            console.log(xMovement, yMovement);
-            console.log(pointsOnXDirection, xProjection.length, pointsOnYDirection, yProjection.length, yProjection);
-
             return Match.create(pattern, value, value > 0.9);
         },
         
