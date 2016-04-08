@@ -192,6 +192,7 @@
         console.log('Attaching logger...');
         recogniser.on('recognised', function(data) {
             var text;
+            console.log('Best match:', data.bestMatch);
             if (data.bestMatch.recognised) {
                 text = 'Recognised: ' + data.bestMatch.pattern.name + ' (' + Math.floor(data.bestMatch.value * 100) + '%)';
                 console.log(text);
