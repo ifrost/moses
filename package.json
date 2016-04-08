@@ -8,7 +8,8 @@
     "make": "node node_modules/requirejs/bin/r.js -o build/build.js",
     "test": "mocha-phantomjs test/test.html",
     "version": "npm run prepare && npm run make && git add --all",
-    "postversion": "git push && git push --tags && npm publish"
+    "postversion": "git push && git push --tags && npm publish",
+    "coverage": "npm run prepare && istanbul instrument js -o js-cov && mocha-phantomjs test/test.html?__coverage__ spec -k node_modules/mocha-phantomjs-istanbul/index.js && istanbul report && istanbul report text-summary"
   },
   "repository": {
     "type": "git",

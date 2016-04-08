@@ -7,10 +7,10 @@
         <script src="../node_modules/mocha/mocha.js"></script>
         <script src="../node_modules/requirejs/require.js"></script>
         <script>
-            mocha.setup('bdd')
-    
+            var COVERAGE = document.location.href.indexOf('__coverage__') !== -1;
+            mocha.setup('bdd');
             require.config({
-                baseUrl: '../js',
+                baseUrl: COVERAGE ? '../js-cov' : '../js',
                 paths: {
                     'chai': '../node_modules/chai/chai',
                     'sinon': '../node_modules/sinon/lib/sinon',
@@ -23,7 +23,7 @@
                 }
             });
             
-            require(['../test/util/math.test'], function() {
+            require(['../build/main', '../test/util/math.test'], function() {
                 mocha.run();
             });
         </script>

@@ -39,3 +39,5 @@ node_modules/requirejs/bin/r.js
 node_modules/requirejs/package.json
 node_modules/requirejs/require.js
 node_modules/
+coverage/
+js-cov/
