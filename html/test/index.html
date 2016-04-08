@@ -4,14 +4,15 @@
         <div id="mocha"><p><a href=".">Index</a></p></div>
         <div id="messages"></div>
         <div id="fixtures"></div>
-        <script src="../node_modules/mocha/mocha.js"></script>
-        <script src="../node_modules/requirejs/require.js"></script>
+        <script src="../../node_modules/mocha/mocha.js"></script>
+        <script src="../../node_modules/requirejs/require.js"></script>
         <script>
             var COVERAGE = document.location.href.indexOf('__coverage__') !== -1;
             mocha.setup('bdd');
             require.config({
-                baseUrl: COVERAGE ? '../js-cov' : '../js',
+                baseUrl: COVERAGE ? '../../js-cov' : '../../js',
                 paths: {
+                    'handjs': '../node_modules/handjs/hand.min',
                     'chai': '../node_modules/chai/chai',
                     'sinon': '../node_modules/sinon/lib/sinon',
                     'p': '../node_modules/protoplast/dist/protoplast'
@@ -23,7 +24,7 @@
                 }
             });
             
-            require(['../build/main', '../test/util/math.test'], function() {
+            require(['../build/main', '../build/main.test'], function() {
                 mocha.run();
             });
         </script>
