@@ -17,7 +17,7 @@ define(function(require) {
         },
 
         subtract: function(point) {
-            return Point.create(point.x - this.x, point.y - this.y);
+            return Point.create(this.x - point.x, this.y - point.y);
         },
 
         length: {

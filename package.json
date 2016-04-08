@@ -6,7 +6,7 @@
   "scripts": {
     "prepare": "node build/prepare.js js build/main.js && node build/prepare.js test build/main.test.js",
     "make": "node node_modules/requirejs/bin/r.js -o build/build.js",
-    "test": "mocha-phantomjs test/test.html",
+    "test": "npm run prepare && mocha-phantomjs html/test/index.html",
     "version": "npm run prepare && npm run make && git add --all",
     "postversion": "git push && git push --tags && npm publish",
     "coverage": "npm run prepare && istanbul instrument js -o js-cov && mocha-phantomjs html/test/index.html?__coverage__ spec -k node_modules/mocha-phantomjs-istanbul/index.js && istanbul report && istanbul report text-summary"
