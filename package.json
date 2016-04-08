@@ -6,7 +6,7 @@
   "scripts": {
     "prepare": "node build/prepare.js js build/main.js",
     "make": "node node_modules/requirejs/bin/r.js -o build/build.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha-phantomjs test/test.html",
     "version": "npm run prepare && npm run make && git add --all",
     "postversion": "git push && git push --tags && npm publish"
   },
@@ -25,6 +25,12 @@
     "requirejs": "2.1.22"
   },
   "devDependencies": {
-    "almond": "0.3.1"
+    "almond": "0.3.1",
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "mocha-phantomjs": "^4.0.2",
+    "mocha-phantomjs-istanbul": "0.0.2",
+    "phantomjs": "^2.1.7",
+    "sinon": "^1.17.3"
   }
 }

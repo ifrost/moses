@@ -1,6 +1,5 @@
 define(function(require){
     
-    
     var p = require('p'),
         Point = require('model/point'),
         Match = require('model/match');
