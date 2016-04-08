@@ -33,7 +33,7 @@ define(function(require){
             
             var value = totalOnDirection / totalPoints;
             
-            var match = Match.create(pattern, value, value > 0.9);
+            var match = Match.create(pattern, value, value > 0.8);
             match.vertical = xMovement === 0;
             match.horizontal = yMovement === 0;
             
