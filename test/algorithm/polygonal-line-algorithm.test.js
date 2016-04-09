@@ -10,7 +10,9 @@ define(function(require) {
         var algorithm;
     
         beforeEach(function() {
-            algorithm = PolygonalLineAlgorithm.create();
+            algorithm = PolygonalLineAlgorithm.create({
+                minLength: 1
+            });
         });
         
         it("does not recognise if the sampling data does not contain enough points" , function() {

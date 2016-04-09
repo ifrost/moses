@@ -8,9 +8,9 @@ define(function(require) {
         
     var PolygonalLineAlgorithm = p.extend({
         
-        $create: function(tolerance, minLength) {
-            this.tolerance = this.tolerance || Math.PI / 9; // 10 degrees
-            this.minLength = this.minLength || 50;
+        $create: function(opts) {
+            this.tolerance = opts.tolerance || Math.PI / 18; // 10 degrees
+            this.minLength = opts.minLength || 30;
         },
         
          /**
@@ -48,7 +48,7 @@ define(function(require) {
         _mergeShortSegments: function(segments) {
             var newSegments = segments.concat(), shortSegmentIndex, merged;
             
-            while ((shortSegmentIndex = this._indexOfShortSegment(newSegments)) !== -1) {
+            while (newSegments.length > 1 && (shortSegmentIndex = this._indexOfShortSegment(newSegments)) !== -1) {
                 if (shortSegmentIndex === 0) {
                     merged = this._mergeSegments(newSegments[0], newSegments[1]);
                     newSegments = [merged].concat(newSegments.slice(2));
