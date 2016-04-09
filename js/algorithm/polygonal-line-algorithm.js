@@ -1,13 +1,16 @@
 define(function(require) {
     
      var p = require('p'),
+         DirectionUtil = require('util/direction'),
          Point = require('model/point'),
-         Match = require('model/match');
+         Match = require('model/match'),
+         MathUtil = require('util/math');
         
     var PolygonalLineAlgorithm = p.extend({
         
-        $create: function(minPoints) {
-            this.minPoints = minPoints || 5;
+        $create: function(tolerance, minLength) {
+            this.tolerance = this.tolerance || Math.PI / 9; // 10 degrees
+            this.minLength = this.minLength || 50;
         },
         
          /**
@@ -17,11 +20,144 @@ define(function(require) {
          * @returns {Match}
          */
         match: function(pattern, samplingData) {
-            var lines = [], index = 0, data = samplingData.concat();
             
             var match = Match.create(pattern, 0, false);
+            match.polyline = {
+                segments: [],
+                vertices: []
+            };
+
+            if (samplingData.length < 3) {
+                return match;
+            }
+            
+            var jointIndicies = this._getJointIndicies(samplingData);
+            match.polyline.vertices = jointIndicies.map(function(index) {
+                return samplingData[index];
+            });
+            match.polyline.segments = this._getSegments(jointIndicies, samplingData);
+            match.polyline.segments = this._smoothSegments(match.polyline.segments);
+            
+            match.polyline.segments = this._mergeShortSegments(match.polyline.segments);
+            match.polyline.segments = this._smoothSegments(match.polyline.segments);
+            match.recognised = true;
+
             return match;
+        },
+        
+        _mergeShortSegments: function(segments) {
+            var newSegments = segments.concat(), shortSegmentIndex, merged;
+            
+            while ((shortSegmentIndex = this._indexOfShortSegment(newSegments)) !== -1) {
+                if (shortSegmentIndex === 0) {
+                    merged = this._mergeSegments(newSegments[0], newSegments[1]);
+                    newSegments = [merged].concat(newSegments.slice(2));
+                }
+                else {
+                    merged = this._mergeSegments(newSegments[shortSegmentIndex - 1], newSegments[shortSegmentIndex]);
+                    newSegments = newSegments.slice(0,shortSegmentIndex-1).concat([merged]).concat(newSegments.slice(shortSegmentIndex + 1));
+                }
+            }
+            
+            return newSegments;
+        },
+        
+        _mergeSegments: function(a, b) {
+            return {
+                start: a.start,
+                end: b.end,
+                vector: b.end.subtract(a.start),
+                direction: DirectionUtil.twoPointsDirection(a.start, b.end)
+            };
+        },
+        
+        _indexOfShortSegment: function(segments) {
+            var index = -1;
+            segments.forEach(function(segment, i) {
+                if (segment.vector.length < this.minLength) {
+                    index = i;
+                }
+            }, this);
+            
+            return index;
+        },
+        
+        _smoothSegments: function(segments) {
+            var points = this._segmentsToPoints(segments);
+            var jointIndicies = this._getJointIndicies(points);
+            var newSegments = this._getSegments(jointIndicies, points);
+            return newSegments;
+        },
+        
+        _segmentsToPoints: function(segments) {
+            var points = [];
+            if (segments.length) {
+                points = [segments[0].start];
+                segments.forEach(function(segment) {
+                    points.push(segment.end);
+                });
+            }
+            return points;
+        },
+        
+        _getSegments: function(indices, points) {
+           var segments = [], segment, start, end;
+           for (var i=1; i<indices.length; i++) {
+               start = points[indices[i-1]];
+               end = points[indices[i]];
+               segment = {
+                   start: start,
+                   end: end,
+                   vector: end.subtract(start),
+                   direction: DirectionUtil.twoPointsDirection(start, end)
+               };
+               segments.push(segment);
+           } 
+           return segments;
+        },
+        
+        _getJointIndicies: function(data) {
+            var angles = this._getAngles(data);
+            var jointIndicies = this._anglesToJointIndicies(angles); 
+            return jointIndicies;
+        },
+        
+        _getSegmentAngles: function(segments) {
+            var angles = [];
+            for (var i=1; i<segments.length; i++) {
+                angles.push(MathUtil.threePointsAngle(segments[i-1].start, segments[i-1].end, segments[i].end));
+            }
+            return angles;
+        },
+        
+        _getAngles: function(data) {
+            var angles = [];
+            for (var i=2; i<data.length; i++) {
+                angles.push(MathUtil.threePointsAngle(data[i-2], data[i-1], data[i]))
+            }
+            return angles;
+        },
+        
+        _anglesToJointIndicies: function(angles) {
+            var joints = angles.map(function(angle) {
+                return !this._isStraight(angle);
+            }, this);
+            joints = [true].concat(joints).concat(true); // start and end are joints
+            
+            var jointIndicies = joints.reduce(function(prev, curr, index) {
+                if (curr) {
+                    prev.push(index);
+                }
+                return prev;
+            }, []);
+            
+            return jointIndicies;
+        },
+        
+        _isStraight: function(angle) {
+            return Math.abs(Math.PI - angle) <= this.tolerance;
         }
+        
         
     });
     

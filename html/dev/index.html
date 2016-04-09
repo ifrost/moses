@@ -161,9 +161,11 @@
 
     function start() {
 
+        var POLYLINE = moses.model.Pattern.create("Polyline", [], moses.algorithm.PolygonalLineAlgorithm.create());
+
         var mosesPatterns = moses.model.MosesPatterns.create();
         var patterns = [mosesPatterns.V, mosesPatterns.CIRCLE, mosesPatterns.DASH, mosesPatterns.SQUARE, mosesPatterns.SEVEN, mosesPatterns.Z];
-        patterns = [mosesPatterns.STRAIGHT_LINE];
+        patterns = [POLYLINE];
 
         var div = document.getElementById("sampler");
 
