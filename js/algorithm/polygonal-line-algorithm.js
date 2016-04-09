@@ -3,14 +3,18 @@ define(function(require) {
      var p = require('p'),
          DirectionUtil = require('util/direction'),
          Point = require('model/point'),
+         Polyline = require('model/polyline'),
+         Segment = require('model/segment'),
          Match = require('model/match'),
          MathUtil = require('util/math');
         
     var PolygonalLineAlgorithm = p.extend({
         
         $create: function(opts) {
-            this.tolerance = opts.tolerance || Math.PI / 18; // 10 degrees
+            opts = opts || {};
+            this.tolerance = opts.tolerance || Math.PI / 12; // 15 degrees
             this.minLength = opts.minLength || 30;
+            this.closedTolerance = opts.closedTolerance || 30;
         },
         
          /**
@@ -22,24 +26,26 @@ define(function(require) {
         match: function(pattern, samplingData) {
             
             var match = Match.create(pattern, 0, false);
-            match.polyline = {
-                segments: [],
-                vertices: []
-            };
+            match.polyline = Polyline.create();
 
             if (samplingData.length < 3) {
                 return match;
             }
             
             var jointIndicies = this._getJointIndicies(samplingData);
-            match.polyline.vertices = jointIndicies.map(function(index) {
-                return samplingData[index];
-            });
+
             match.polyline.segments = this._getSegments(jointIndicies, samplingData);
             match.polyline.segments = this._smoothSegments(match.polyline.segments);
             
             match.polyline.segments = this._mergeShortSegments(match.polyline.segments);
             match.polyline.segments = this._smoothSegments(match.polyline.segments);
+            
+            match.polyline.vertices = [match.polyline.segments[0].start].concat(match.polyline.segments.map(function(segment) {
+                return segment.end;
+            }));
+            
+            match.polyline.closed = MathUtil.distance(match.polyline.vertices[0], match.polyline.vertices[match.polyline.vertices.length - 1]) < this.closedTolerance;
+            
             match.recognised = true;
 
             return match;
@@ -63,12 +69,7 @@ define(function(require) {
         },
         
         _mergeSegments: function(a, b) {
-            return {
-                start: a.start,
-                end: b.end,
-                vector: b.end.subtract(a.start),
-                direction: DirectionUtil.twoPointsDirection(a.start, b.end)
-            };
+            return Segment.create(a.start,b.end);
         },
         
         _indexOfShortSegment: function(segments) {
@@ -105,12 +106,7 @@ define(function(require) {
            for (var i=1; i<indices.length; i++) {
                start = points[indices[i-1]];
                end = points[indices[i]];
-               segment = {
-                   start: start,
-                   end: end,
-                   vector: end.subtract(start),
-                   direction: DirectionUtil.twoPointsDirection(start, end)
-               };
+               segment = Segment.create(start, end);
                segments.push(segment);
            } 
            return segments;

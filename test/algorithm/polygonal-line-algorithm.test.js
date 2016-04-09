@@ -4,7 +4,7 @@ define(function(require) {
         Directions = require("model/directions"),
         PolygonalLineAlgorithm = require("algorithm/polygonal-line-algorithm"),
         Point = require("model/point");
-    
+
     describe("PolygonalLineAlgorithm", function() {
     
         var algorithm;
