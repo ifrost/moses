@@ -69,6 +69,9 @@ define(function(require) {
             if (recognised && data.closed !== undefined) {
                 recognised = polyline.closed === data.closed;
             }
+            if (recognised && data.test !== undefined) {
+                recognised = data.test(polyline);
+            }
             return recognised;
         },
         
