@@ -1,7 +1,9 @@
 define(function(require) {
 
     var p = require('p'),
+        Directions = require('model/directions'),
         DefaultMosesAlgorithm = require('algorithm/default-moses-algorithm'),
+        PolygonalLineAlgorithm = require('algorithm/polygonal-line-algorithm'),
         ShiftedPointsMosesAlgorithm = require('algorithm/shifted-points-moses-algorithm'),
         StraightLineAlgorithm = require("algorithm/straight-line-algorithm"),
         ReversedMosesAlgorithm = require('algorithm/reversed-moses-algorithm'),
@@ -167,6 +169,42 @@ define(function(require) {
         
         STRAIGHT_LINE: {
             value: Pattern.create("Straight line", [], StraightLineAlgorithm.create())
+        },
+        
+        POLYGONAL: {
+            value: {
+                LINE: Pattern.create('Straight line', {
+                    segments: 1
+                }, PolygonalLineAlgorithm.create()),
+                Z: Pattern.create("Z", {
+                    segments: 3,
+                    closed: false,
+                    directions: [[Directions.RIGHT, Directions.LEFT_DOWN, Directions.RIGHT]]
+                }, PolygonalLineAlgorithm.create()),
+                TRIANGLE: Pattern.create("Triangle", {
+                    segments: 3,
+                    closed: true
+                }, PolygonalLineAlgorithm.create()),
+                TWO_LINES: Pattern.create("Two lines", {
+                    segments: 2,
+                    closed: false
+                }, PolygonalLineAlgorithm.create()),
+                RECTANGLE: Pattern.create("Rectangle", {
+                    segments: 4,
+                    closed: true,
+                    directions: [
+                            [Directions.RIGHT, Directions.DOWN, Directions.LEFT, Directions.UP],
+                            [Directions.DOWN, Directions.LEFT, Directions.UP, Directions.RIGHT],
+                            [Directions.LEFT, Directions.UP, Directions.RIGHT, Directions.DOWN],
+                            [Directions.UP, Directions.RIGHT, Directions.DOWN, Directions.LEFT],
+                            
+                            [Directions.DOWN, Directions.RIGHT, Directions.UP, Directions.LEFT],
+                            [Directions.RIGHT, Directions.UP, Directions.LEFT, Directions.DOWN],
+                            [Directions.UP, Directions.LEFT, Directions.DOWN, Directions.RIGHT],
+                            [Directions.LEFT, Directions.DOWN, Directions.RIGHT, Directions.UP],
+                        ]
+                })
+            }
         }
 
     });

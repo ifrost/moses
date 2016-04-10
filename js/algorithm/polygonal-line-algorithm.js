@@ -5,6 +5,7 @@ define(function(require) {
          Point = require('model/point'),
          Polyline = require('model/polyline'),
          Segment = require('model/segment'),
+         SegmentUtil = require('util/segment'),
          Match = require('model/match'),
          MathUtil = require('util/math');
         
@@ -46,30 +47,23 @@ define(function(require) {
             
             match.polyline.closed = MathUtil.distance(match.polyline.vertices[0], match.polyline.vertices[match.polyline.vertices.length - 1]) < this.closedTolerance;
             
-            match.recognised = true;
+            match.recognised = this._recognise(pattern);
 
             return match;
         },
         
+        _recognise: function(pattern) {
+            return true;
+        },
+        
         _mergeShortSegments: function(segments) {
-            var newSegments = segments.concat(), shortSegmentIndex, merged;
+            var newSegments = segments.concat(), shortSegmentIndex;
             
             while (newSegments.length > 1 && (shortSegmentIndex = this._indexOfShortSegment(newSegments)) !== -1) {
-                if (shortSegmentIndex === 0) {
-                    merged = this._mergeSegments(newSegments[0], newSegments[1]);
-                    newSegments = [merged].concat(newSegments.slice(2));
-                }
-                else {
-                    merged = this._mergeSegments(newSegments[shortSegmentIndex - 1], newSegments[shortSegmentIndex]);
-                    newSegments = newSegments.slice(0,shortSegmentIndex-1).concat([merged]).concat(newSegments.slice(shortSegmentIndex + 1));
-                }
+                newSegments = SegmentUtil.mergeWithPrev(newSegments, shortSegmentIndex);
             }
             
             return newSegments;
-        },
-        
-        _mergeSegments: function(a, b) {
-            return Segment.create(a.start,b.end);
         },
         
         _indexOfShortSegment: function(segments) {

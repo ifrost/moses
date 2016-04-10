@@ -5,7 +5,8 @@ define(function(require) {
     var PatternFactory = require('../test/model/pattern-factory.test');
     var Point = require('../test/model/point.test');
     var Math = require('../test/util/math.test');
+    var Array = require('../test/util/array.test');
 
-    return {"algorithm":{"PolygonalLineAlgorithm":PolygonalLineAlgorithm},"model":{"PatternFactory":PatternFactory,"Point":Point},"util":{"Math":Math}}
+    return {"algorithm":{"PolygonalLineAlgorithm":PolygonalLineAlgorithm},"model":{"PatternFactory":PatternFactory,"Point":Point},"util":{"Math":Math,"Array":Array}}
 
 });
