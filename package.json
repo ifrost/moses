@@ -1,6 +1,6 @@
 {
   "name": "mosesjs",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "Mouse gesture recognition",
   "main": "moses.js",
   "scripts": {
