@@ -11,7 +11,7 @@ define(function(require) {
          LEFT_DOWN: 6,
          LEFT: 7,
          LEFT_UP: 8,
-         NO_MOVE: 9
+         NO_MOVE: 0
     });
     
     return Directions;

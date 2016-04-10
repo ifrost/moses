@@ -1,6 +1,7 @@
 define(function(require) {
     
     var p = require("p"),
+        Directions = require('model/directions'),
         Point = require('model/point');
     
     var DirectionUtil = p.extend({
@@ -32,24 +33,41 @@ define(function(require) {
                 return 0; // no move
             }
 
-            direction.y = -direction.y; // screen coordinates
-
-            var base = Point.create(0, 1);
+            var base = Point.create(0, -1);
             var dotProduct = direction.x * base.x + direction.y * base.y;
             var cos = dotProduct / (direction.length * base.length);
-
-            var result;
+            var eight = this._eight(Math.acos(cos));
+            
             if (direction.x < 0) {
-                result = (2 * Math.PI - Math.acos(cos)) / (Math.PI / 4) + 1.5;
-                if (result >= 9) {
-                    result -= 9;
+                switch (eight) {
+                    case 0: return Directions.UP;
+                    case 1: case 2: return Directions.LEFT_UP;
+                    case 3: case 4: return Directions.LEFT;
+                    case 5: case 6: return Directions.LEFT_DOWN;
+                    case 7: return Directions.DOWN;
                 }
             }
             else {
-                result = (Math.acos(cos)) / (Math.PI / 4) + 1.5
+                switch (eight) {
+                    case 0: return Directions.UP;
+                    case 1: case 2: return Directions.RIGHT_UP;
+                    case 3: case 4: return Directions.RIGHT;
+                    case 5: case 6: return Directions.RIGHT_DOWN;
+                    case 7: return Directions.DOWN;
+                }
             }
-
-            return Math.floor(result);
+        },
+        
+        PI8: Math.PI / 8,
+        
+        _eight: function(angle) {
+            var eight = angle / this.PI8;
+            if (eight === 8) {
+                return 7;
+            }
+            else {
+                return Math.floor(eight);
+            }
         }
         
     });

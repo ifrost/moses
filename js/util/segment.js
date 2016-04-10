@@ -10,13 +10,14 @@ define(function(require) {
         },
         
         mergeWithPrev: function(list, index) {
-            var merged, list = list.concat();
+            var merged;
+            list = list.concat();
             if (index === 0) {
                 merged = this.mergeSegments(list[0], list[1]);
                 list = [merged].concat(list.slice(2));
             }
             else {
-                merged = this._ergeSegments(list[index - 1], list[index]);
+                merged = this.mergeSegments(list[index - 1], list[index]);
                 list = list.slice(0,index-1).concat([merged]).concat(list.slice(index + 1));
             }
             return list;
@@ -27,5 +28,7 @@ define(function(require) {
         },
         
     });
+    
+    return SegmentUtil;
     
 })

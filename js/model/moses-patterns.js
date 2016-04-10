@@ -189,6 +189,10 @@ define(function(require) {
                     segments: 2,
                     closed: false
                 }, PolygonalLineAlgorithm.create()),
+                DOUBLE_LINE: Pattern.create("Double line", {
+                    segments: 2,
+                    closed: true
+                }, PolygonalLineAlgorithm.create()),
                 RECTANGLE: Pattern.create("Rectangle", {
                     segments: 4,
                     closed: true,
@@ -203,7 +207,7 @@ define(function(require) {
                             [Directions.UP, Directions.LEFT, Directions.DOWN, Directions.RIGHT],
                             [Directions.LEFT, Directions.DOWN, Directions.RIGHT, Directions.UP],
                         ]
-                })
+                }, PolygonalLineAlgorithm.create())
             }
         }
 

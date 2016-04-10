@@ -1,6 +1,7 @@
 define(function(require) {
     
      var p = require('p'),
+         ArrayUtil = require('util/array'),
          DirectionUtil = require('util/direction'),
          Point = require('model/point'),
          Polyline = require('model/polyline'),
@@ -47,13 +48,28 @@ define(function(require) {
             
             match.polyline.closed = MathUtil.distance(match.polyline.vertices[0], match.polyline.vertices[match.polyline.vertices.length - 1]) < this.closedTolerance;
             
-            match.recognised = this._recognise(pattern);
+            match.recognised = this._recognise(pattern.data || {}, match.polyline);
+            match.value = match.recognised ? 1 : 0;
 
             return match;
         },
         
-        _recognise: function(pattern) {
-            return true;
+        _recognise: function(data, polyline) {
+            var recognised = true, anyDirectionMatches, polylineDirections;
+            if (data.segments !== undefined) {
+                recognised = data.segments === polyline.segments.length;
+            }
+            if (recognised && data.directions !== undefined) {
+                polylineDirections = polyline.segments.map(function(segment){return segment.direction;});
+                anyDirectionMatches = data.directions.some(function(directions) {
+                    return ArrayUtil.compare(directions, polylineDirections);
+                });
+                recognised = anyDirectionMatches;
+            }
+            if (recognised && data.closed !== undefined) {
+                recognised = polyline.closed === data.closed;
+            }
+            return recognised;
         },
         
         _mergeShortSegments: function(segments) {
