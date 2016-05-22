@@ -163,7 +163,6 @@
 
         var mosesPatterns = moses.model.MosesPatterns.create();
         var patterns = [mosesPatterns.V, mosesPatterns.CIRCLE, mosesPatterns.DASH, mosesPatterns.SQUARE, mosesPatterns.SEVEN, mosesPatterns.Z];
-        patterns = [mosesPatterns.POLYGONAL.LINE, mosesPatterns.POLYGONAL.DOUBLE_LINE, mosesPatterns.POLYGONAL.TWO_LINES, mosesPatterns.POLYGONAL.Z, mosesPatterns.POLYGONAL.TRIANGLE, mosesPatterns.POLYGONAL.RECTANGLE];
 
         var div = document.getElementById("sampler");
 
@@ -172,7 +171,7 @@
         for (var i = 0; i < patterns.length; i++) {
             pattern = patterns[i];
             svgPath = patternPaths[i];
-            //drawPoints(svgPath, normalise(pattern.patterns ? pattern.patterns[0].data : pattern.data, 60, 60, 15, 15));
+            drawPoints(svgPath, normalise(pattern.patterns ? pattern.patterns[0].data : pattern.data, 60, 60, 15, 15));
         }
 
         console.log('Creating sampler...');
