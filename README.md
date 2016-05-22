@@ -6,13 +6,30 @@ It's a JS version of https://github.com/ifrost/moses-flash.
 
 # Demo
 
-TBD
+http://ifrost.github.io/moses/html/demo/
 
 # How it works?
 
-A `Sampler` is responsible for capturing user events and dispatching sampling events with list of sampled points.
+A `Sampler` is responsible for capturing user events and dispatching sampling events with a list of sampled points.
 
-A `Recogniser` listens to sampling events. When a gesture is sampled is processes the data. It checks all registered `Patterns` and runs the pattern's `Algorithm` passing sampled data. Each `Pattern` contains data that is used by algorithm to compare with sampled points. `Algorithm` returns a `Match` object with 0-1 value showing how well recognition of the pattern went.
+A `Recogniser` listens to sampling events. When a gesture is sampled recogniser processes the data. It checks all registered `Patterns` and runs the pattern's `Algorithm` passing sampled data. Each `Pattern` contains data that is used by algorithm to compare with the sampled points. `Algorithm` returns a `Match` object with 0-1 value showing how well recognition of the pattern went.
+
+Samplers (`js/sampler`):
+*`DistanceSampler` based on the distance between points
+*`TimeSampler` based on time delay
+
+Recognisers (`js/reconigser`): 
+* `DefaultRecogniser`
+
+Algorithms (`js/algorithm`):
+* `DefaultMosesAlgorithm` based on simplified directions (similar to http://www.bytearray.org/?p=91)
+* `ShiftedPointsMosesAlgorithm` variaton of `DefaultMosesAlgorithm` that shifts the points before recognition so closed patterns can be recognises from any starting point
+* `ReversedMosesAlgorithm` variation of `DefaultMosesAlgorithm` that additionally compares the pattern with data points in reversed order
+* `PolygonalLineAlgorithm` recognising polygonal lines
+* `StraightLineAlgorithm` recognising if the gesture was a simple, straight line
+* `PatternCollectionAlgorithm` algorithm used by `PatternCollection`
+
+Some predefined patterns are available: `moses.model.MosesPatterns.create()`.
 
 # Example
 
